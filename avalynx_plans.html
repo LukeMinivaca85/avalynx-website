@@ -21,7 +21,7 @@ select{padding:12px;border-radius:14px;border:2px solid #000;font-size:16px;widt
 
 <div class="grid">
   <div class="card"><h2>Free</h2><p>Grátis</p>
-    <a href="payments_confirm.html?plan=free"><button>Usar</button></a>
+    <a href="https://payments.lukintosh.com/payments_confirm.html?plan=free"><button>Usar</button></a>
   </div>
 
   <div class="card"><h2>Plus</h2><p id="plus"></p>
@@ -37,17 +37,17 @@ select{padding:12px;border-radius:14px;border:2px solid #000;font-size:16px;widt
   </div>
 
   <div class="card"><h2>Enterprise</h2><p>Contrato corporativo</p>
-    <a href="payments_confirm.html?plan=enterprise"><button>Contato</button></a>
+    <a href="https://payments.lukintosh.com/payments_confirm.html?plan=enterprise"><button>Contato</button></a>
   </div>
 
   <div class="card"><h2>E3</h2><p>Por usuário / mês</p>
-    <a href="payments_confirm.html?plan=e3"><button>Contrato</button></a>
+    <a href="https://payments.lukintosh.com/payments_confirm.html?plan=e3"><button>Contrato</button></a>
   </div>
   <div class="card"><h2>E5</h2><p>Por usuário / mês</p>
-    <a href="payments_confirm.html?plan=e5"><button>Contrato</button></a>
+    <a href="https://payments.lukintosh.com/payments_confirm.html?plan=e5"><button>Contrato</button></a>
   </div>
   <div class="card"><h2>F7</h2><p>Por usuário / mês</p>
-    <a href="payments_confirm.html?plan=f7"><button>Contrato</button></a>
+    <a href="https://payments.lukintosh.com/payments_confirm.html?plan=f7"><button>Contrato</button></a>
   </div>
 </div>
 
@@ -82,9 +82,9 @@ function show(cur,rate){
   plus.textContent = `${cur} ${(USD.plus*rate).toFixed(2)} / mês`;
   pro.textContent  = `${cur} ${(USD.pro*rate).toFixed(2)} / mês`;
   ultra.textContent= `${cur} ${(USD.ultra*rate).toFixed(2)} / mês`;
-  plusBtn.href=`payments_confirm.html?plan=plus&currency=${cur}`;
-  proBtn.href =`payments_confirm.html?plan=pro&currency=${cur}`;
-  ultraBtn.href=`payments_confirm.html?plan=ultra&currency=${cur}`;
+  plusBtn.href=`https://payments.lukintosh.com/payments_confirm.html?plan=plus&currency=${cur}`;
+  proBtn.href =`https://payments.lukintosh.com/payments_confirm.html?plan=pro&currency=${cur}`;
+  ultraBtn.href=`https://payments.lukintosh.com/payments_confirm.html?plan=ultra&currency=${cur}`;
 }
 function update(){
   const cur=sel.value;
