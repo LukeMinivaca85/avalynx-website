@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>AvaLynx • Planos</title>
+<style>
+body{font-family:Segoe UI,Inter,sans-serif;background:#fafafa;padding:40px;text-align:center}
+.grid{display:flex;flex-wrap:wrap;justify-content:center;gap:25px}
+.card{width:260px;background:#fff;padding:25px;border-radius:20px;border:2px solid #000;box-shadow:0 8px 25px rgba(0,0,0,.08);color:#000}
+.card p{color:#333}
+a{text-decoration:none;color:inherit}
+button{width:100%;padding:12px;border-radius:12px;border:2px solid #000;background:#fff;font-weight:700;margin-top:10px}
+button:hover{background:#000;color:#fff;cursor:pointer}
+select{padding:12px;border-radius:14px;border:2px solid #000;font-size:16px;width:340px}
+</style>
+</head>
+<body>
+
+<h1>Planos AvaLynx</h1>
+<p>🌍 <b>Moeda</b><br><select id="currency"></select></p>
+
+<div class="grid">
+  <div class="card"><h2>Free</h2><p>Grátis</p>
+    <a href="payments_confirm.html?plan=free"><button>Usar</button></a>
+  </div>
+
+  <div class="card"><h2>Plus</h2><p id="plus"></p>
+    <a id="plusBtn"><button>Assinar</button></a>
+  </div>
+
+  <div class="card"><h2>Pro</h2><p id="pro"></p>
+    <a id="proBtn"><button>Assinar</button></a>
+  </div>
+
+  <div class="card"><h2>Ultra</h2><p id="ultra"></p>
+    <a id="ultraBtn"><button>Assinar</button></a>
+  </div>
+
+  <div class="card"><h2>Enterprise</h2><p>Contrato corporativo</p>
+    <a href="payments_confirm.html?plan=enterprise"><button>Contato</button></a>
+  </div>
+
+  <div class="card"><h2>E3</h2><p>Por usuário / mês</p>
+    <a href="payments_confirm.html?plan=e3"><button>Contrato</button></a>
+  </div>
+  <div class="card"><h2>E5</h2><p>Por usuário / mês</p>
+    <a href="payments_confirm.html?plan=e5"><button>Contrato</button></a>
+  </div>
+  <div class="card"><h2>F7</h2><p>Por usuário / mês</p>
+    <a href="payments_confirm.html?plan=f7"><button>Contrato</button></a>
+  </div>
+</div>
+
+<script>
+const USD={plus:7.99,pro:19.99,ultra:99.99};
+const stripeCurrencies={
+"USD":"US Dollar","EUR":"Euro","GBP":"Pound Sterling","JPY":"Japanese Yen","BRL":"Brazilian Real",
+"AED":"United Arab Emirates Dirham","CAD":"Canadian Dollar","AUD":"Australian Dollar","CHF":"Swiss Franc",
+"MXN":"Mexican Peso","SEK":"Swedish Krona","NOK":"Norwegian Krone","DKK":"Danish Krone","PLN":"Polish Zloty",
+"CZK":"Czech Koruna","HUF":"Hungarian Forint","RON":"Romanian Leu","BGN":"Bulgarian Lev","ZAR":"South African Rand",
+"HKD":"Hong Kong Dollar","SGD":"Singapore Dollar","KRW":"South Korean Won","INR":"Indian Rupee",
+"IRR": "Iranian Rial","IDR":"Indonesian Rupiah","THB":"Thai Baht","MYR":"Malaysian Ringgit","PHP":"Philippine Peso",
+"VND":"Vietnamese Dong","NZD":"New Zealand Dollar","EGP":"Egyptian Pound","SAR":"Saudi Riyal","QAR":"Qatari Riyal",
+"KWD":"Kuwaiti Dinar","MAD":"Moroccan Dirham","COP":"Colombian Peso","CLP":"Chilean Peso","UYU":"Uruguayan Peso"
+};
+// fallback aproximado (USD→moeda)
+const fallback={"AED":3.67,"SAR":3.75,"QAR":3.64,"IRR": 42000,"KWD":0.30,"INR":83,"IDR":15700,"VND":24000,"EGP":48,"MAD":10.2,"PHP":55,"MYR":4.7};
+
+const sel=document.getElementById("currency");
+for(const c in stripeCurrencies){
+  const o=document.createElement("option");
+  o.value=c;o.textContent=`${c} — ${stripeCurrencies[c]}`;sel.appendChild(o);
+}
+function detect(){
+  try{
+    const r=(Intl.DateTimeFormat().resolvedOptions().locale.split("-")[1]||"US");
+    const m={US:"USD",BR:"BRL",GB:"GBP",JP:"JPY",AE:"AED",SA:"SAR",IN:"INR",CA:"CAD",AU:"AUD",MX:"MXN",ZA:"ZAR",EU:"EUR"};
+    return m[r]||"USD";
+  }catch{return "USD";}
+}
+function show(cur,rate){
+  plus.textContent = `${cur} ${(USD.plus*rate).toFixed(2)} / mês`;
+  pro.textContent  = `${cur} ${(USD.pro*rate).toFixed(2)} / mês`;
+  ultra.textContent= `${cur} ${(USD.ultra*rate).toFixed(2)} / mês`;
+  plusBtn.href=`payments_confirm.html?plan=plus&currency=${cur}`;
+  proBtn.href =`payments_confirm.html?plan=pro&currency=${cur}`;
+  ultraBtn.href=`payments_confirm.html?plan=ultra&currency=${cur}`;
+}
+function update(){
+  const cur=sel.value;
+  if(cur==="USD"){ show("USD",1); return; }
+  fetch(`https://api.frankfurter.app/latest?from=USD&to=${cur}`)
+    .then(r=>r.json()).then(d=>show(cur,d.rates[cur]))
+    .catch(()=>show(cur,(fallback[cur]||1)));
+}
+sel.value=detect(); update(); sel.onchange=update;
+</script>
+</body>
+</html>
