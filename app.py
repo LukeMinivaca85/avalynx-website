@@ -55,4 +55,7 @@ def enterprise_submit():
     return send_file("enterprise_success.html")
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    import os
+    port = int(os.environ.get("PORT", 10000))  # usa PORT no Render, 10000 local
+    app.run(host="0.0.0.0", port=port)
+
